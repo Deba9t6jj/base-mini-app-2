@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Game - Earn Points</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 30px;
+    }
+    #gameBox {
+      width: 300px;
+      height: 300px;
+      background: #1a1a1a;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #00aaff;
+      position: relative;
+      overflow: hidden;
+    }
+    #target {
+      width: 50px;
+      height: 50px;
+      background: #00aaff;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #score {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #00aaff;
+      cursor: pointer;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tap to Earn Points</h1>
+  <div id="gameBox">
+    <div id="target"></div>
+  </div>
+  <div id="score">Score: 0</div>
+  <button onclick="saveScore()">Save Score</button>
+
+  <script>
+    let target = document.getElementById('target');
+    let gameBox = document.getElementById('gameBox');
+    let scoreText = document.getElementById('score');
+    let score = 0;
+
+    // Load saved score on page load
+    window.onload = () => {
+        const saved = localStorage.getItem("savedScore");
+        if (saved !== null) {
+            score = parseInt(saved);
+            scoreText.textContent = "Score: " + score;
+        }
+    };
+
+    function moveTarget() {
+      const x = Math.random() * (gameBox.clientWidth - 50);
+      const y = Math.random() * (gameBox.clientHeight - 50);
+      target.style.left = x + "px";
+      target.style.top = y + "px";
+    }
+
+    target.addEventListener('click', () => {
+      score++;
+      scoreText.textContent = "Score: " + score;
+      moveTarget();
+    });
+
+    moveTarget();
+
+    // Save score to localStorage
+    function saveScore() {
+      localStorage.setItem("savedScore", score);
+      alert("Score saved locally! Saved Score: " + score);
+    }
+  </script>
+</body>
+</html>
